@@ -4,6 +4,6 @@
 
 ![](https://github.com/lph6755065/Design-Patterns/blob/main/picture/1647505164(1).png)  
 ### 设计模式的优点
-
+![](https://github.com/lph6755065/Design-Patterns/blob/main/picture/1647505423(1).jpg)
 
 
