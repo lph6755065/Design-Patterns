@@ -41,4 +41,55 @@ private:
 Singleton* Singleton::instance = NULL;
  
 #endif //__SINGLETON_H__
+```  
+客户端验证
+```cpp
+int main()
+{
+	Singleton *s1 = Singleton::getInstance();
+	Singleton *s2 = Singleton::getInstance();
+ 
+	system("pause");
+	return 0;
+}
+``` 
+结果只出现一个实例
+
+可以看出，构造函数是私有的，即单例模式对象只能在类内部实例化（满足单例模式第二个要点）。同时，实例对象Instance是静态static的，也就是全局的，假设客户端实例化了两个Singleton,但instance只有一个（静态共享的，满足第一个要点）。第三个要点是main里面调用系统提供的实例。
+
+## 多线程环境测试单例模式 
+```cpp
+/*非线程安全 单例模式*/
+#include <process.h>
+#include <Windows.h>
+#define THREAD_NUM 5
+ 
+unsigned int __stdcall CallSingleton(void *pPM)
+{
+	Singleton *s = Singleton::getInstance();
+	int nThreadNum = *(int *)pPM; 
+	Sleep(50);
+	printf("线程编号为%d\n", nThreadNum);
+	return 0;
+}
+ 
+int main()
+{
+	HANDLE  handle[THREAD_NUM];
+ 
+	//线程编号
+	int threadNum = 0;
+	while (threadNum < THREAD_NUM)
+	{
+		handle[threadNum] = (HANDLE)_beginthreadex(NULL, 0, CallSingleton, &threadNum, 0, NULL);
+		//等子线程接收到参数时主线程可能改变了这个i的值
+		threadNum++;
+	}
+	//保证子线程已全部运行结束
+	WaitForMultipleObjects(THREAD_NUM, handle, TRUE, INFINITE);
+ 
+	system("pause");
+	return 0;
+}
 ```
+
