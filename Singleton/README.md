@@ -131,4 +131,5 @@ std::mutex Singleton::m_mutex;
  
 #endif //__SINGLETON_H__
 ```  
-
+在多线程环境测试结果，功能正常
+![](https://github.com/lph6755065/Design-Patterns/blob/main/picture/20191020183942253.png)
